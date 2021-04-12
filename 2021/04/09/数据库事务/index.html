@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>数据库事务 | 精神时间屋</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="数据库事务事务的特性事务具有四个特性，原子性（Atomicity）、一致性（Consistency）、隔离性（Isolation）、持久性（Durability），简称ACID （1）原子性 这个比较容易理解，事务中的一系列操作（增删改查）要么都做，要么都不做。 （2）一致性 一致性指数据库中只包含事务成功提交的结果，未完成的事务对数据库的修改不会提交到数据库。比如说一个事务中同时包含两个upda">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据库事务">
+<meta property="og:url" content="https://codeyongqi.github.io/2021/04/09/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1/index.html">
+<meta property="og:site_name" content="精神时间屋">
+<meta property="og:description" content="数据库事务事务的特性事务具有四个特性，原子性（Atomicity）、一致性（Consistency）、隔离性（Isolation）、持久性（Durability），简称ACID （1）原子性 这个比较容易理解，事务中的一系列操作（增删改查）要么都做，要么都不做。 （2）一致性 一致性指数据库中只包含事务成功提交的结果，未完成的事务对数据库的修改不会提交到数据库。比如说一个事务中同时包含两个upda">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-04-09T14:23:12.000Z">
+<meta property="article:modified_time" content="2021-04-09T14:25:53.117Z">
+<meta property="article:author" content="朱勇麒">
+<meta property="article:tag" content="数据库">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="精神时间屋" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">精神时间屋</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS 订阅"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://codeYongqi.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-数据库事务" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/04/09/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1/" class="article-date">
+  <time class="dt-published" datetime="2021-04-09T14:23:12.000Z" itemprop="datePublished">2021-04-09</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      数据库事务
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="数据库事务"><a href="#数据库事务" class="headerlink" title="数据库事务"></a>数据库事务</h1><h2 id="事务的特性"><a href="#事务的特性" class="headerlink" title="事务的特性"></a>事务的特性</h2><p>事务具有四个特性，原子性（Atomicity）、一致性（Consistency）、隔离性（Isolation）、持久性（Durability），简称ACID</p>
+<p>（1）原子性</p>
+<p>这个比较容易理解，事务中的一系列操作（增删改查）要么都做，要么都不做。</p>
+<p>（2）一致性</p>
+<p>一致性指数据库中只包含事务成功提交的结果，未完成的事务对数据库的修改不会提交到数据库。比如说一个事务中同时包含两个update操作，当只有一个update完成的时候，修改最终不会在物理数据库中保留。当全部做完了以后就会COMMIT，将对数据库的修改写到磁盘上，若事务不能正常进行，则会进行ROLLBACK回滚，将事务已完成的操作撤销。</p>
+<p>（3）隔离性</p>
+<p>即多个事务可以并发操作，不会相互干扰</p>
+<p>（4）持久性</p>
+<p>持久性指当一个事务成功提交以后，它对数据库的修改一定会写入物理数据库。后续发生的故障不会对其产生影响</p>
+<h2 id="故障介绍与处理"><a href="#故障介绍与处理" class="headerlink" title="故障介绍与处理"></a>故障介绍与处理</h2><h3 id="故障介绍"><a href="#故障介绍" class="headerlink" title="故障介绍"></a>故障介绍</h3><p>数据库运行的故障主要有两类，事务内部的故障和事务运行时的故障，还有介质故障（主要属于物理故障）</p>
+<p>事务内部的故障包含预期和非预期，大部分指非预期的故障，这种故障无法在程序中进行处理。如产生并发死锁的时候选中了该事务对其强制撤销。对这类问题解决的操作称为事务撤销，对应有（UNDO LOG）。</p>
+<p>下面代码展示的是一个可预期的故障，如果余额小于0则会导致回滚</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">...</span><br><span class="line">IF(BALANCE &lt; 0)THEN</span><br><span class="line">	&#123;ROLLBACK;&#125;</span><br><span class="line">ELSE </span><br><span class="line">	&#123;BALANCE1 &#x3D; BALANCE1 + AMOUNT;</span><br><span class="line">	COMMIT;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>事务运行时的故障指数据库在运行时遭遇意外的停止，如最运行时断电。当发生故障后，数据库中存在未完成的事务和已提交的事务，对于未完成的事务，由于其有可能已经对数据库进行了修改，无法保证事务的一致性，所以需要对所有未完成的事务进行强制撤销。对于已经提交的事务，它可能还来不及写入物理数据库中，所以当数据库重新启动时，需要对这一部分数据重做，对应有（REDO LOG）</p>
+<h3 id="故障恢复技术"><a href="#故障恢复技术" class="headerlink" title="故障恢复技术"></a>故障恢复技术</h3><p>对于故障的解决办法是通过冗余，是的，你没听错。原理非常简单，就是在系统另外的地方存储冗余数据。冗余数据的建立有两种常见的技术，一是数据转储，还有一个是登记日志文件。</p>
+<p>数据转储就是定期对整个数据库进行拷贝得到副本，在数据库遭到破坏时，将副本重装。注意在重装以后数据库只能恢复到拷贝时候的状态，还需要重新运行拷贝后的所有事务。“拷贝”这个词听起来就非常麻烦，它很花时间，还很消耗资源。我们直觉上会认为在拷贝的时候，是不能有其它事务在运行的，要不然的得到的数据就不准确了。没错，但是拷贝这么长的时间，难道我们只能傻傻地等着吗？好在我们有另外的方法可以使得在拷贝的时候也可以运行事务，这种方式是动态的，因此我们把它称为动态转储，相应地前面那一种方法就称为静态转储。</p>
+<p>对于前面的介绍，可能你已经产生了疑问，动态转储如何保证数据的准确性呢，答案就是日志文件，日志文件会记录在转储过程中所有事务对数据库的修改记录，有了日志文件再结合副本就可以得到恢复到正确状态。下面来介绍一下日志文件</p>
+<p>首先要记住在数据库中最重要的一点，事务执行是<strong>先写日志文件，后写数据库</strong>的，这是最基本的要求。日志文件大致可分为两种格式，以记录为单位和以数据块为单位。日志文件会记录事务的开始和结束标记（注意，ROLLBACK也是结束标记），并且还会记录更新前和更新后的值，日志文件严格按照事务执行的时间来记录。日志文件能应用到动态转储中，那么我们可不可以也将它应用到静态转储中，这样在重装完副本就不用执行所有的事务了，答案当然是可以的，事实上很多时候我们就是这么做的。</p>
+<p>总结一下，对于故障的解决办法就是增加数据的记录，静态转储不一定需要日志，动态转储必须要有日志，另外在转储的时候还分为海量转储和增量转储，顾名思义，海量转储就是记录全部数据库，增量转储只会记录上一次转储后更新的部分。因此转储方式共有四种，对于不同的情况，我们可以选择不同的转储方式。</p>
+<h3 id="故障恢复过程"><a href="#故障恢复过程" class="headerlink" title="故障恢复过程"></a>故障恢复过程</h3><p>对于事务内部故障的恢复，可分为几个步骤，这部分对数据库用户来说是透明的</p>
+<p>（1）反向扫描日志文件，查找更新操作</p>
+<p>（2）对更新操作进行“逆操作”，即删除改为插入，插入改为删除，更新后的值改为更新前的值</p>
+<p>（3）继续扫描，并执行对应操作，直到该事务的开始标记</p>
+<p>对于系统故障的恢复则要多出一个重做的步骤</p>
+<p>（1）正向扫描日志文件，将已经提交的事务加入到重做队列（REDO-LIST）中，未完成的事务加入到撤销队列（UNDO-LIST）中</p>
+<p>（2）对撤销队列中的每个事务进行撤销操作</p>
+<p>（3）对重做队列中的每个事务进行重做操作</p>
+<p>对于介质故障的恢复</p>
+<p>（1）重装数据库副本，恢复至一致性状态</p>
+<p>（2）扫描日志，将已经提交的事务加入重做队列（REDO-LIST），对重做队列中事务进行重做</p>
+<p>利用日志来恢复数据库非常方便，但是也存在一些问题。例如搜索日志会花费大量的时间而且并不是重做队列中所有的事务都是需要重做的，由此产生了带有检查点的恢复技术。检查点技术就是在日志中添加检查点并用一个重新开始文件来记录检查点在日志文件中的位置，其核心思想就是<strong>确保在检查点位置加入重新开始文件之前所有数据修改都已经写入磁盘，因此在检查点之前提交的事务一定已经写入数据库</strong></p>
+<h2 id="数据库镜像"><a href="#数据库镜像" class="headerlink" title="数据库镜像"></a>数据库镜像</h2><p>对于数据库的故障，即使是完全恢复也会消耗大量的时间，DBA必须周期地对数据库进行拷贝，而一旦出现严重的故障，就会造成巨大损失。而数据库镜像可以解决这个问题，他的原理是用另一块磁盘将主数据库完全拷贝并且与主数据库保持完全一致。当出现介质故障的时候，镜像磁盘可以继续使用，并且镜像磁盘还可以用于并发操作。</p>
+<p>本文作者：朱勇麒 <br> 原文链接： <a href="https://codeyongqi.github.io/2021/04/09/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1/">https://codeYongqi.github.io/2021/04/09/数据库事务/</a> <br>bye</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://codeyongqi.github.io/2021/04/09/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1/" data-id="cknelkbvb000fdqsegy7h3ghr" data-title="数据库事务" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2021/04/12/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%B9%B6%E5%8F%91%E5%A4%84%E7%90%86/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前一篇</strong>
+      <div class="article-nav-title">
+        
+          数据库并发处理
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2021/03/16/hit-oslab-1/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">哈工大操作系统实验 Hit-oslab 环境搭建指南</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Python3-2021%E6%98%A5/">Python3_2021春</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0%E7%BF%BB%E8%AF%91/">技术文章翻译</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 10px;">数据库</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">四月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">三月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">二月 2021</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/04/12/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%B9%B6%E5%8F%91%E5%A4%84%E7%90%86/">数据库并发处理</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/09/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1/">数据库事务</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/16/hit-oslab-1/">哈工大操作系统实验 Hit-oslab 环境搭建指南</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/09/2021-3-9/">2021-3-9</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/08/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0%E7%BF%BB%E8%AF%91/">技术文章翻译</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 朱勇麒<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
